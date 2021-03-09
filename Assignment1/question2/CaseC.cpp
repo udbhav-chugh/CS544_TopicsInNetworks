@@ -30,16 +30,10 @@ public:
 	}
 
 	void simulate(){
-		if(arrivalRate >= serviceRate){
-			cout<<"The system is unstable. Exiting program"<<endl;
-			exit(0);
-		}
-
+		
 		default_random_engine generator (time(0));
 		exponential_distribution<double> distributionArrival (this -> arrivalRate);
 		exponential_distribution<double> distributionServer (this -> serviceRate);
-
-
 
 		for(int i=0;i<2;i++){
 			ld curArrivalTime = 0;

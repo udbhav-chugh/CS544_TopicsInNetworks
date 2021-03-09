@@ -45,6 +45,8 @@ public:
 			for(int j=0;j<totalWorkers;j++){
 				curArrivalTime += distributionArrival(generator);
 				arrivalTime[i].push_back(curArrivalTime);
+				serviceEnterTime[i].push_back(0);
+				leavingTime[i].push_back(0);
 			}
 		}
 		vector<pair<int,int> > overallArrival;
@@ -105,8 +107,8 @@ public:
 					ld serviceTime = distributionServer(generator);
 					
 					ld serviceEndTime = serviceStartTime + serviceTime;
-					serviceEnterTime[curtype].push_back(serviceStartTime);
-					leavingTime[curtype].push_back(serviceEndTime);
+					serviceEnterTime[curtype][headIndex] = serviceStartTime;
+					leavingTime[curtype][headIndex] = serviceEndTime;
 					servers[curtype] -> setNextFreeTime(serviceEndTime);
 					totalServerTime[curtype] += serviceTime;
 				}
