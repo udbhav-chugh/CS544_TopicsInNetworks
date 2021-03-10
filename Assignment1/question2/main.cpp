@@ -14,7 +14,7 @@ using namespace std;
 int main(int argc, char *argv[]){
 	char option;		
 	ll caseNum = 1;			
-	ld arrivalRate = 15, serviceRate = 25;
+	ld arrivalRate = 0.25, serviceRate = 0.3;
 	ll totalWorkers = 1000000;
 	if(argc >= 2){
 		caseNum = atoll(argv[1]);
