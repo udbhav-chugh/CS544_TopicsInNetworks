@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
 		serviceRate = atof(argv[3]);
 	}
 	else if(caseNum == 3){
-		serviceRate = arrivalRate / 0.52934;
+		serviceRate = arrivalRate / 0.60524;
 	}
 	if (argc >= 5){
 		totalWorkers = atoll(argv[4]);
