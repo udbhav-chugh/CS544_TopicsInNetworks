@@ -1,18 +1,20 @@
+//class for Case B -> One M/M/2 Queue systems
 class CaseB{
 
-	ld arrivalRate, serviceRate; 
-	ll totalWorkers;
+	ld arrivalRate, serviceRate; //input arrival and service rate
+	ll totalWorkers; // total workers to simulate on
 
-	ld totalResponseTime;
-	ld totalTime;
+	ld totalResponseTime; // total response time
+	ld totalTime; // total time of simulation
 
-	ld totalServerTime, totalWaitingTime;
+	ld totalServerTime, totalWaitingTime; // total checking time in server and waiting time in queue
 
-	vector<ld> arrivalTime, serviceEnterTime, leavingTime;
+	vector<ld> arrivalTime, serviceEnterTime, leavingTime; // for each worker, store its arrival, service entering and leaving time
 
-	Server *servers[2];
+	Server *servers[2]; //two servers
 
 public:
+	//intialise variables
 	CaseB(ld arrivalRate, ld serviceRate, ll totalWorkers){
 
 		this -> arrivalRate = arrivalRate;
@@ -35,6 +37,7 @@ public:
 			exit(0);
 		}
 
+		//exponential input generator
 		default_random_engine generator (time(0));
 		exponential_distribution<double> distributionArrival (this -> arrivalRate);
 		exponential_distribution<double> distributionServer (this -> serviceRate);
@@ -43,6 +46,7 @@ public:
 
 		ld curArrivalTime = 0;
 		ld sum=0;
+		//find out arrivals for workers
 		for(int j=0;j<totalWorkers;j++){
 			curArrivalTime += distributionArrival(generator);
 			arrivalTime.push_back(curArrivalTime);
@@ -50,8 +54,10 @@ public:
 		int arrivalIndex = 0;
 		queue<int> waitingQueue;
 
+		//start simulation
 		while(arrivalIndex < arrivalTime.size() || waitingQueue.size() > 0){
 			ld curArrival = LDBL_MAX;
+			//check if any arrival is still pending
 			if(arrivalIndex < arrivalTime.size()){
 				curArrival = arrivalTime[arrivalIndex];
 			}
@@ -61,47 +67,49 @@ public:
 				freeServer = 1;
 			}
 
-			//Arrival Event
+			//Arrival Event for a worker
 			if(curArrival < servers[freeServer] -> getNextFreeTime() || waitingQueue.size() == 0){
 				waitingQueue.push(arrivalIndex);
 				arrivalIndex++;
 			}
 
-			//Servicing and Leaving Event
+			//Servicing and Leaving Event for a worker
 			if( servers[freeServer] -> getNextFreeTime() <= curArrival){
 				if(waitingQueue.size() == 0){
 					continue;
 				}
 				ld curQueueSize = waitingQueue.size();
 
+				//get element at head of queue
 				int headIndex = waitingQueue.front();
 
 				waitingQueue.pop();
 				ld serviceStartTime = max(arrivalTime[headIndex], servers[freeServer] -> getNextFreeTime());	
 
-				ld serviceTime = distributionServer(generator);
-				// ld serviceTime = distributionServer(generatorArrival);
+				ld serviceTime = distributionServer(generator); // find service time using exponential distribution
 				
 				ld serviceEndTime = serviceStartTime + serviceTime;
+				// update service start and end time for the worker
 				serviceEnterTime.push_back(serviceStartTime);
 				leavingTime.push_back(serviceEndTime);
 				servers[freeServer] -> setNextFreeTime(serviceEndTime);
 				totalServerTime += serviceTime;
 			}
 		}
+		//simulation completed
+		//calculate required values to poutput
 		totalTime = max(servers[0] -> getNextFreeTime(), servers[1] -> getNextFreeTime());
 		for(int j=0;j<arrivalTime.size();j++){
 			totalResponseTime += leavingTime[j] - arrivalTime[j];
 			totalWaitingTime += serviceEnterTime[j] - arrivalTime[j];
 		}
-
 		ld averageWorkersGettingChecked = totalServerTime / totalTime;
 		ld averageResponseTime = totalResponseTime / totalWorkers;
 		ld averageWaitingTime = totalWaitingTime / totalWorkers;
 		ld averageWorkersInQueue = totalWaitingTime / totalTime;
 		ld averageWorkersInSystem = totalResponseTime / totalTime;
 
-
+		//output on console as well as file
 		ofstream fil("CaseB.txt");
 		cout<<"Given:"<<endl;
 		fil<<"Given:"<<endl;
