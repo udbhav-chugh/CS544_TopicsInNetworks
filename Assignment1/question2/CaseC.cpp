@@ -1,19 +1,21 @@
+//class for Case C -> Two M/M/1/6 Queue systems
 class CaseC{
 
-	ld arrivalRate, serviceRate; 
-	ll totalWorkers;
+	ld arrivalRate, serviceRate; //input arrival and service rate
+	ll totalWorkers; // total workers to simulate on
 
-	ld totalResponseTime[2];
-	ld totalTime[2];
+	ld totalResponseTime[2]; // total response time for each queue system
+	ld totalTime[2]; // total time for each queue system
 
-	ld totalServerTime[2], totalWaitingTime[2];
+	ld totalServerTime[2], totalWaitingTime[2]; // total checking time in server and waiting time in queue
 
-	vector<ld> arrivalTime[2], serviceEnterTime[2], leavingTime[2];
+	vector<ld> arrivalTime[2], serviceEnterTime[2], leavingTime[2]; // for each worker, store its arrival, service entering and leaving time
 
-	Server *servers[2];
+	Server *servers[2]; //two servers, 1 for each queue
 	vector<bool> droppedPackets[2];
 
 public:
+	//intialise variables
 	CaseC(ld arrivalRate, ld serviceRate, ll totalWorkers){
 
 		this -> arrivalRate = arrivalRate;
@@ -31,10 +33,12 @@ public:
 
 	void simulate(){
 		
+		//exponential input generator
 		default_random_engine generator (time(0));
 		exponential_distribution<double> distributionArrival (this -> arrivalRate);
 		exponential_distribution<double> distributionServer (this -> serviceRate);
 
+		//find out arrivals for workers in each queue
 		for(int i=0;i<2;i++){
 			ld curArrivalTime = 0;
 			for(int j=0;j<totalWorkers;j++){
@@ -45,6 +49,8 @@ public:
 				droppedPackets[i].push_back(0);
 			}
 		}
+
+		// merge arrivals into a single vector sorted by time of arrival
 		vector<pair<int,int> > overallArrival;
 		int index0=0,index1=0;
 		while(index0<totalWorkers && index1<totalWorkers){
@@ -65,21 +71,25 @@ public:
 			pair<int,int> arrivalValue(1, index1++);			
 			overallArrival.push_back(arrivalValue);	
 		}
+
 		int arrivalIndex = 0;
 		queue<int> waitingQueue[2];
+		//start simulation
 		while(arrivalIndex < overallArrival.size() || waitingQueue[0].size() > 0 || waitingQueue[1].size() > 0){
 			ld curArrival = LDBL_MAX;
 			int type=0;
 			int index=0;
+
+			//check if any arrival is still pending
 			if(arrivalIndex < overallArrival.size()){
 				type = overallArrival[arrivalIndex].first;
 				index = overallArrival[arrivalIndex].second;
 				curArrival = arrivalTime[type][index];
 			}
 
-			//Arrival Event
+			//Arrival Event for a worker
 			if(arrivalIndex < overallArrival.size() && (curArrival < servers[type] -> getNextFreeTime() || waitingQueue[type].size() == 0)){
-				if(waitingQueue[type].size() < 5){
+				if(waitingQueue[type].size() < 5){ // check if queue is full
 					waitingQueue[type].push(index);
 				}
 				//packet dropped
@@ -92,7 +102,8 @@ public:
 			if(servers[0] -> getNextFreeTime() > servers[1] -> getNextFreeTime()){
 				traverse[0]=1;traverse[1]=0;
 			}
-			//Servicing and Leaving Event
+			
+			//Servicing and Leaving Event for a worker
 			for(int i=0;i<2;i++){
 				int curtype = traverse[i];
 				if( servers[curtype] -> getNextFreeTime() <= curArrival){
@@ -101,14 +112,16 @@ public:
 					}
 					ld curQueueSize = waitingQueue[curtype].size();
 
+					//get element at head of queue
 					int headIndex = waitingQueue[curtype].front();
 
 					waitingQueue[curtype].pop();
 					ld serviceStartTime = max(arrivalTime[curtype][headIndex], servers[curtype] -> getNextFreeTime());	
 
-					ld serviceTime = distributionServer(generator);
+					ld serviceTime = distributionServer(generator); // find service time using exponential distribution
 					
 					ld serviceEndTime = serviceStartTime + serviceTime;
+					// update service start and end time for the worker
 					serviceEnterTime[curtype][headIndex] = serviceStartTime;
 					leavingTime[curtype][headIndex] = serviceEndTime;
 					servers[curtype] -> setNextFreeTime(serviceEndTime);
@@ -116,6 +129,8 @@ public:
 				}
 			}
 		}
+		//simulation completed
+		//output on console as well as file
 
 		ofstream fil("CaseC.txt");
 		cout<<"Given:"<<endl;
@@ -138,6 +153,7 @@ public:
 				totalResponseTime[i] += leavingTime[i][j] - arrivalTime[i][j];
 				totalWaitingTime[i] += serviceEnterTime[i][j] - arrivalTime[i][j];
 			}
+			//calculate required parameters after simulation
 			ld averageWorkersGettingChecked = totalServerTime[i] / totalTime[i];
 			ld averageResponseTime = totalResponseTime[i] / totalWorkersEntering;
 			ld averageWaitingTime = totalWaitingTime[i] / totalWorkersEntering;
