@@ -149,16 +149,16 @@ public:
 			ld averageWorkersInSystem = totalResponseTime[i] / totalTime[i];
 			cout<<"For Queue "<<i+1<<": "<<endl;
 			fil<<"For Queue "<<i+1<<": "<<endl;
-			cout<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
-			fil<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
-			cout<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<endl;
-			fil<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<endl;
-			cout<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
-			fil<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
-			cout<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
-			fil<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
-			cout<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl;
-			fil<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl;
+			cout<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<" workers"<<endl;
+			fil<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<" workers"<<endl;
+			cout<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<" seconds"<<endl;
+			fil<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<" seconds"<<endl;
+			cout<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<" seconds"<<endl;
+			fil<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<" seconds"<<endl;
+			cout<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<" workers"<<endl;
+			fil<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<" workers"<<endl;
+			cout<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<" workers"<<endl;
+			fil<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<" workers"<<endl;
 			cout<<endl;
 			fil<<endl;
 		}

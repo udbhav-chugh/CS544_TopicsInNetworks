@@ -28,13 +28,14 @@ Here, we have simulated a case with M/M/2 queueing system. The queue has an arri
 ===================================================
 
 To run case C with custom input of lambda and mu:
-./a.out 3 0.25 0.3
+./a.out 3 0.25 0.413
 
 To run case C with values specified in makefile:
 make casec
 
 Here we have simulated a case with 2 M/M/1/6 queueing systems (as for each system, there are 5 chairs and 1 serving officer). Each queue has an arrival rate of lambda and each officer has a service rate of mu. 
 Here, if you specify only lambda as input, mu will be taken such that blocking probability will be 0.02. If both lambda and mu are given, blocking will be in accordance to the rates provided as input.
+For blocking probability to be 0.02, serviceRate(mu) = arrivalRate(lambda) / 0.60524
 
 ===================================================
 

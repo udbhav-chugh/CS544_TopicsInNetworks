@@ -1,17 +1,19 @@
 Given:
-For each counter, mean arrival rate is 25 workers per second with exponential distribution
-For each officer, mean service rate is 30 workers per second with exponential distribution
+For each counter, mean arrival rate is 0.25 workers per second with exponential distribution
+For each officer, mean service rate is 0.413 workers per second with exponential distribution
 This is a case of two M/M/1/6 queue systems
 
 For Counter 1: 
-a) Average number of workers getting checked: 0.76874
-b) Average response time for workers in getting checked: 0.0991082
-c) Average time for which a worker has to wait until getting checked: 0.0658136
-d) Average number of workers waiting in the queue before each officer: 1.51957
-Additonally, Average number of workers in the system (getting checked + in queue): 2.28831
+a) Average number of workers getting checked: 0.593076
+b) Average response time for workers in getting checked: 5.36908
+c) Average time for which a worker has to wait until getting checked: 2.94876
+d) Average number of workers waiting in the queue before each officer: 0.722566
+Additonally, Average number of workers in the system (getting checked + in queue): 1.31564
+
 For Counter 2: 
-a) Average number of workers getting checked: 0.767728
-b) Average response time for workers in getting checked: 0.099289
-c) Average time for which a worker has to wait until getting checked: 0.0659369
-d) Average number of workers waiting in the queue before each officer: 1.51779
-Additonally, Average number of workers in the system (getting checked + in queue): 2.28552
+a) Average number of workers getting checked: 0.593044
+b) Average response time for workers in getting checked: 5.38864
+c) Average time for which a worker has to wait until getting checked: 2.96571
+d) Average number of workers waiting in the queue before each officer: 0.725899
+Additonally, Average number of workers in the system (getting checked + in queue): 1.31894
+

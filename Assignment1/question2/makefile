@@ -11,4 +11,4 @@ caseb:
 
 casec:
 	g++ main.cpp
-	./a.out 3 0.25
+	./a.out 3 0.25 0.413
