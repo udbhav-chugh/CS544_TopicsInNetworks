@@ -2,112 +2,13 @@
 
 using namespace std;
 
-class Options {
- public:
-	string topFile, connFile, routeFile, fwdFile, pathsFile, flag;
-	bool approach;
-};
+#include "inputOutput.cpp"
 
-class Topology {
- public:
-	int nodes;
-	int edges;
-	vector < vector < double >>linkCost;
-	vector < vector < double >>linkCapacity;
-	vector<vector<vector<int>>> shortestPath;
-	vector<vector<vector<int>>> secondShortestPath;
-	vector<vector<double>> pathCost;
-	vector<vector<double>> secondPathCost;
-	vector<vector<vector<int>>> forwardTable;
-
-};
-
-class Connection{
-public:
-	bool allowed;
-	int src, dest;
-	double bMin, bAvg, bMax, bEqv, totCost;
-	vector<int> lblList;
-};
-
-class Connections{
-public:
-	int count, lblCount;
-	vector<Connection> connList;
-};
-
-Topology top;
-Options opt;
-Connections conn;
-
-void parseTopology()
-{
-	ifstream in(opt.topFile);
-	streambuf *cinbuf = std::cin.rdbuf();
-	cin.rdbuf(in.rdbuf());
-
-	cin >> top.nodes >> top.edges;
-	top.linkCost.resize(top.nodes, vector < double >(top.nodes, -1));
-	top.linkCapacity.resize(top.nodes, vector < double >(top.nodes, -1));
-	top.shortestPath.resize(top.nodes, vector < vector<int> >(top.nodes));
-	top.secondShortestPath.resize(top.nodes, vector < vector<int> >(top.nodes));
-	top.pathCost.resize(top.nodes, vector < double >(top.nodes, -1));
-	top.secondPathCost.resize(top.nodes, vector < double >(top.nodes, -1));
-	top.forwardTable.resize(top.nodes);
-
-
-	for (int i = 0; i < top.edges; i++) {
-		int src, dest, cost, cap;
-		cin >> src >> dest >> cost >> cap;
-		if (opt.flag == "hop"){
-			top.linkCost[src][dest] = 1;
-			top.linkCost[dest][src] = 1;
-		}
-		else{
-			top.linkCost[src][dest] = cost;
-			top.linkCost[dest][src] = cost;
-		}
-		top.linkCapacity[src][dest] = cap;
-		top.linkCapacity[dest][src] = cap;
-	}
-
-	cin.rdbuf(cinbuf);
-
-	// cout << top.nodes << " " << top.edges << "\n";
-	// for (int i = 0; i < top.nodes; i++) {
-	// 	for (int j = 0; j < top.nodes; j++){
-	// 		if (top.linkCost[i][j] != -1){
-	// 			cout<<i<<" "<<j<<" "<<top.linkCost[i][j]<<" "<<top.linkCapacity[i][j]<<"\n";
-	// 		}
-	// 	}
-	// }
-}
-
-void parseConnections(){
-	ifstream in(opt.connFile);
-	streambuf *cinbuf = std::cin.rdbuf();
-	cin.rdbuf(in.rdbuf());
-
-	cin >> conn.count;
-	for (int i=0; i<conn.count; i++){
-		Connection req;
-		cin>>req.src>>req.dest>>req.bMin>>req.bAvg>>req.bMax;
-		req.bEqv = min(req.bMax, req.bAvg + 0.25*(req.bMax - req.bMin));
-		req.allowed = 0;
-		conn.connList.push_back(req);
-	}
-
-	cin.rdbuf(cinbuf);
-
-	// cout << conn.count << "\n";
-	// for (auto c: conn.connList){
-	// 	cout<<c.src<<" "<<c.dest<<" "<<c.bMin<<" "<<c.bAvg<<" "<<c.bMax<<" "<<c.bEqv<<"\n";
-	// }
-}
-
+// Run Djikstra for a source to destination (optional: Can be -1 if looking for all shortest paths)
 void djikstra(int src, int dest){
 	set<pair<double, int>> rem;
 	unordered_map <int, pair<int, double>> dist;
+	// Initialise distances to INF
 	for (int i=0; i<top.nodes; i++){
 		if (i != src){
 			rem.insert({INT64_MAX, i});
@@ -118,18 +19,18 @@ void djikstra(int src, int dest){
 			dist[i] = {-1, 0};
 			if (dest == -1){
 				top.shortestPath[src][i].push_back(src);
-				// pathCost[src][i] = 0;
-				// secondPathCost[src][i] = 0;
 			}
 		}
 	}
 
 
+	// Run Djikstra, finding unreached nodes with smallest distance
 	while (!rem.empty()){
 		double curDist = rem.begin()->first;
 		int curNode = rem.begin()->second;
 		rem.erase(rem.begin());
 		
+		// Store paths depending on smallest or second shortest paths
 		if (dist[curNode].first != -1){
 			if (dest == -1){
 				top.shortestPath[src][curNode] = top.shortestPath[src][dist[curNode].first];
@@ -147,6 +48,7 @@ void djikstra(int src, int dest){
 			}
 		}
 
+		// Update distances to neighbouring nodes
 		for (int i=0; i<top.nodes; i++){
 			if (top.linkCost[curNode][i] != -1 && rem.find({dist[i].second, i}) != rem.end()){
 				if (dist[curNode].second != INT64_MAX && dist[curNode].second + top.linkCost[curNode][i] < dist[i].second){
@@ -161,46 +63,8 @@ void djikstra(int src, int dest){
 
 }
 
-void printRoutingTable(){
-	ofstream out(opt.routeFile);
-	streambuf *coutbuf = std::cout.rdbuf();
-	cout.rdbuf(out.rdbuf());
-	
-	cout << "Routing Table for All Nodes\n";
-	for (int i=0; i<top.nodes; i++){
-		cout << "Shotest Path Routing for Node "<<i<<":\n";
-		cout <<setw(16)<<"Destination Node"<<setw(29)<<"Path"<<setw(17)<<"Path Cost\n";
-		for (int j=0; j<top.nodes; j++){
-			if (i == j) 
-				continue;
-			string path;
-			for (auto it: top.shortestPath[i][j])
-				path += (to_string(it) + " ");
-			cout<<setw(16)<<j<<setw(30)<<path<<setw(15)<<top.pathCost[i][j]<<"\n";
-		}
-		cout<<"\n";
-	}
-	cout<<"\n\n";
 
-	for (int i=0; i<top.nodes; i++){
-		cout << "Second Shotest Path Routing for Node "<<i<<":\n";
-		cout <<setw(16)<<"Destination Node"<<setw(29)<<"Path"<<setw(17)<<"Path Cost\n";
-		for (int j=0; j<top.nodes; j++){
-			if (i == j) 
-				continue;
-			string path;
-			for (auto it: top.secondShortestPath[i][j])
-				path += (to_string(it) + " ");
-			cout<<setw(16)<<j<<setw(30)<<path<<setw(15)<<top.secondPathCost[i][j]<<"\n";
-
-		}
-		cout<<"\n";
-	}
-
-	cout.rdbuf(coutbuf);
-
-}
-
+// Helper function to calculate shortest paths
 void calculateShortestPaths(){
 	for (int i=0; i<top.nodes; i++){
 		djikstra (i, -1);
@@ -209,6 +73,7 @@ void calculateShortestPaths(){
 				continue;
 			int prev = -1;
 			vector<double> costs;
+			// Remove shortest path and rerun Djikstra to find link-disjoint second shortest path
 			for (auto it: top.shortestPath[i][j]){
 				if (prev != -1){
 					costs.push_back(top.linkCost[prev][it]);
@@ -231,8 +96,10 @@ void calculateShortestPaths(){
 	}
 }
 
+// Check if connection constraints can be accommodated
 int tryAdmit(Connection &req){
 
+	// Check id shortest path admissible
 	if (top.shortestPath[req.src][req.dest].empty())
 		return 0;
 
@@ -252,6 +119,7 @@ int tryAdmit(Connection &req){
 	if (possible)
 		return 1;
 
+	// Check id second shortest path admissible
 	if (top.secondShortestPath[req.src][req.dest].empty())
 		return 0;
 
@@ -274,18 +142,20 @@ int tryAdmit(Connection &req){
 
 }
 
-
+// Helper function to admit connections request
 void admitConnections(){
 	for (auto &req: conn.connList){	
 		int result = tryAdmit(req);
 		if (!result)
 			continue;
 		req.allowed = 1;		
+		// Calculate cost based on optimistic or pessimistic approach
 		req.totCost = (result == 1 ? top.pathCost[req.src][req.dest] : top.secondPathCost[req.src][req.dest]);
 
 		int prev = -1, index = 0;
 		double reqVal = (opt.approach ? req.bMax : req.bEqv);
 		vector <int> &chosenPath = (result == 1 ? top.shortestPath[req.src][req.dest] : top.secondShortestPath[req.src][req.dest]);
+		// If admitted, update forwarding and connection tables
 		if (chosenPath.size() >= 2)
 			top.forwardTable[chosenPath[0]].push_back({-1, -1, chosenPath[1], conn.lblCount});
 		for (auto it: chosenPath){
@@ -306,56 +176,11 @@ void admitConnections(){
 	}
 }
 
-void printForwardingTable(){
-	ofstream out(opt.fwdFile);
-	streambuf *coutbuf = std::cout.rdbuf();
-	cout.rdbuf(out.rdbuf());
-
-	for (int i=0; i<top.nodes; i++){
-		cout << "Forwarding table for Node "<<i<<":\n";
-		cout <<setw(12)<<"Interface In"<<setw(15)<<"Label In"<<setw(20)<<"Interface Out"<<setw(16)<<"Label Out\n";
-		for (auto it: top.forwardTable[i]){
-			cout <<setw(12)<<it[0]<<setw(15)<<it[1]<<setw(20)<<it[2]<<setw(15)<<it[3]<<"\n";
-		}
-		cout<<"\n";
-	}
-
-	cout.rdbuf(coutbuf);
-}
-
-void printConnections(){
-
-	ofstream out(opt.pathsFile);
-	streambuf *coutbuf = std::cout.rdbuf();
-	cout.rdbuf(out.rdbuf());
-
-	int admitConn = 0;
-	cout << "Admitted Connections:\n";
-	cout <<setw(13)<<"Connection Id"<<setw(15)<<"Source"<<setw(15)<<"Destination"<<setw(34)<<"Label List"<<setw(17)<<"Path Cost\n";
-	int index = 0;
-	for (auto it: conn.connList){
-		if (it.allowed){
-			admitConn++;
-			string lblStr;
-			for (auto node: it.lblList){
-				lblStr += (to_string(node) + " ");
-			}
-			cout <<setw(13)<<index<<setw(15)<<it.src<<setw(15)<<it.dest<<setw(35)<<lblStr<<setw(15)<<it.totCost<<"\n";
-		}
-		index++;		
-	}
-
-	cout.rdbuf(coutbuf);
-
-	cout<<"Total Connections: "<<conn.connList.size()<<"\n";;
-	cout<<"Admitted Connections: "<<admitConn<<"\n";
-	cout<<"Blocking Probability: "<<1-double(admitConn)/conn.connList.size()<<"\n";
-}
-
+// Main function that takes input arguments 
 int main(int argc, char *argv[]){
 	// Check for number of arguments
-	if (argc < 8){
-		cout<<"Not enough arguments specified\n";
+	if (argc != 8){
+		cout<<"Incorrect number arguments specified\n";
 		exit(0);
 	}
 	opt.topFile = argv[1];
@@ -366,6 +191,16 @@ int main(int argc, char *argv[]){
 	opt.flag = argv[6];
 	opt.approach = stoi(argv[7]);
 
+	if (opt.flag != "hop" && opt.flag != "dist"){
+		cout<<"Error: hopjdist needs to be \"hop\" or \"dist\"\n";
+		exit(0);
+	}
+	if (stoi(argv[7]) != 0 && stoi(argv[7]) != 1){
+		cout<<"Error: Approach needs to be 0 (Optimistic) or 1 (Pessimistic)\n";
+		exit(0);
+	}
+
+	// Parse inputs, admit connections and generate outputs
 	parseTopology();
 	parseConnections();
 	calculateShortestPaths();
@@ -373,15 +208,6 @@ int main(int argc, char *argv[]){
 	printRoutingTable();
 	printForwardingTable();
 	printConnections();
-
-	// cout << top.nodes << " " << top.edges << "\n";
-	// for (int i = 0; i < top.nodes; i++) {
-	// 	for (int j = 0; j < top.nodes; j++){
-	// 		if (top.linkCost[i][j] != -1){
-	// 			cout<<i<<" "<<j<<" "<<top.linkCost[i][j]<<" "<<top.linkCapacity[i][j]<<"\n";
-	// 		}
-	// 	}
-	// }
 
 	return 0;
 }
