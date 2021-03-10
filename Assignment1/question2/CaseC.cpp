@@ -116,6 +116,17 @@ public:
 				}
 			}
 		}
+
+		ofstream fil("CaseC.txt");
+		cout<<"Given:"<<endl;
+		fil<<"Given:"<<endl;
+		cout<<"For each counter, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
+		fil<<"For each counter, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
+		cout<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
+		fil<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
+		cout<<"This is a case of two M/M/1/6 queue systems"<<endl<<endl;
+		fil<<"This is a case of two M/M/1/6 queue systems"<<endl<<endl;
+
 		for(int i=0;i<2;i++){
 			totalTime[i] = servers[i] -> getNextFreeTime();
 			ll totalWorkersEntering = 0;
@@ -133,14 +144,21 @@ public:
 			ld averageWorkersInQueue = totalWaitingTime[i] / totalTime[i];
 			ld averageWorkersInSystem = totalResponseTime[i] / totalTime[i];
 			cout<<"For Counter "<<i+1<<": "<<endl;
-			cout<<"Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
-			cout<<"Average response time for workers in getting checked: "<<averageResponseTime<<endl;
-			cout<<"Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
-			cout<<"Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
-			cout<<"Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl;
+			fil<<"For Counter "<<i+1<<": "<<endl;
+			cout<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
+			fil<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
+			cout<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<endl;
+			fil<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<endl;
+			cout<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
+			fil<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
+			cout<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
+			fil<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
+			cout<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl;
+			fil<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl;
 			cout<<endl;
+			fil<<endl;
 		}
 
-	
+		fil.close();
 	}
 };

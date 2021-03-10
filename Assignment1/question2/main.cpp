@@ -28,8 +28,13 @@ int main(int argc, char *argv[]){
 	else if(caseNum == 3){
 		serviceRate = arrivalRate / 0.60524;
 	}
-	if (argc >= 5){
-		totalWorkers = atoll(argv[4]);
+	if(arrivalRate <= 0){
+		cout<<"Arrival Rate must be a positive number";
+		exit(0);
+	}
+	if(serviceRate <= 0){
+		cout<<"Service Rate must be a positive number";
+		exit(0);
 	}
 	// cout<<caseNum<<" "<<arrivalRate<<" "<<serviceRate<<" "<<totalWorkers<<" "<<simulationTime<<endl;
 	

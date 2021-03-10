@@ -101,10 +101,27 @@ public:
 		ld averageWorkersInQueue = totalWaitingTime / totalTime;
 		ld averageWorkersInSystem = totalResponseTime / totalTime;
 
-		cout<<"Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
-		cout<<"Average response time for workers in getting checked: "<<averageResponseTime<<endl;
-		cout<<"Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
-		cout<<"Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
-		cout<<"Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl;
+
+		ofstream fil("CaseB.txt");
+		cout<<"Given:"<<endl;
+		fil<<"Given:"<<endl;
+		cout<<"For the common queue, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
+		fil<<"For the common queue, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
+		cout<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
+		fil<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
+		cout<<"This is a case of M/M/2 queue system"<<endl<<endl;
+		fil<<"This is a case of M/M/2 queue system"<<endl<<endl;
+
+		cout<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
+		fil<<"a) Average number of workers getting checked: "<<averageWorkersGettingChecked<<endl;
+		cout<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<endl;
+		fil<<"b) Average response time for workers in getting checked: "<<averageResponseTime<<endl;
+		cout<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
+		fil<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<endl;
+		cout<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
+		fil<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<endl;
+		cout<<"Additionally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl<<endl;
+		fil<<"Additionally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<endl<<endl;
+		fil.close();
 	}
 };
