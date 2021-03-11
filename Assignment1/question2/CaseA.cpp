@@ -32,7 +32,7 @@ public:
 
 	void simulate(){
 		if(arrivalRate >= serviceRate){
-			cout<<"The system is unstable. Exiting program"<<endl;
+			cout<<"The system is unstable as arrival rate  >= service rate, so queue size will tend to go to inifinte. Exiting program"<<endl;
 			exit(0);
 		}
 

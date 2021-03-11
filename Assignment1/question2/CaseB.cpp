@@ -33,7 +33,8 @@ public:
 
 	void simulate(){
 		if(arrivalRate >= 2*serviceRate){
-			cout<<"The system is unstable. Exiting program"<<endl;
+			cout<<"The system is unstable as arrival rate >=  2 * service rate, so queue size will tend to go to inifinte. Exiting program"<<endl;
+
 			exit(0);
 		}
 
