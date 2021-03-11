@@ -3,7 +3,7 @@ Roll No: 170101081, 170101084
 
 CS 544 Assignment 1 Q1:
 
-Steps to Run (Inside src folder):
+Steps to Run:
 1) Run "make compile"
 2) Run "make run1" or "make run2"
 
