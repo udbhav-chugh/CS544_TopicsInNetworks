@@ -1,3 +1,6 @@
+Name: Udbhav Chugh, Mayank Baranwal
+Roll No: 170101081, 170101084
+
 This is the README for question 2 of Assignemnt 1.
 
 ===================================================
@@ -44,6 +47,7 @@ To run case C with values specified in makefile:
 make casec
 
 Here we have simulated a case with 2 M/M/1/6 queueing systems (as for each system, there are 5 chairs and 1 serving officer). Each queue has an arrival rate of lambda and each officer has a service rate of mu. 
+
 Here, if you specify only lambda as input, mu will be taken such that blocking probability will be 0.02. If both lambda and mu are given, blocking will be in accordance to the rates provided as input.
 For blocking probability to be 0.02, serviceRate(mu) = arrivalRate(lambda) / 0.60524
 The output will be shown on console as well stored in file OutputCaseC.txt

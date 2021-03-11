@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char *argv[]){
 	char option;		
 	ll caseNum = 1;		//default case to execute is 1	
-	ld arrivalRate = 0.25, serviceRate = 0.3; // set default values of arrival and service rate if none given
+	ld arrivalRate = 0.25, serviceRate = 0.5; // set default values of arrival and service rate if none given
 	ll totalWorkers = 1000000;
 	//update case number from input
 	if(argc >= 2){
@@ -32,6 +32,9 @@ int main(int argc, char *argv[]){
 	//if no service rate give, for case 3 update service rate s.t. blocking probablity = 0.02
 	else if(caseNum == 3){
 		serviceRate = arrivalRate / 0.60524;
+	}
+	else{
+		serviceRate = arrivalRate * 2; //if for case 1 or 2, no service rate given, take service rate twice of arrival rate
 	}
 	//check if arrival rate and service rate are positive
 	if(arrivalRate <= 0){

@@ -1,19 +1,19 @@
 Given:
-For each counter, mean arrival rate is 0.25 workers per second with exponential distribution
-For each officer, mean service rate is 0.413059 workers per second with exponential distribution
+For each counter, mean arrival rate is 1 workers per second with exponential distribution
+For each officer, mean service rate is 2 workers per second with exponential distribution
 This is a case of two M/M/1/6 queue systems
 
 For Counter 1: 
-a) Average number of workers getting checked: 0.593961 workers
-b) Average response time for workers in getting checked: 5.40249 seconds
-c) Average time for which a worker has to wait until getting checked: 2.97872 seconds
-d) Average number of workers waiting in the queue before each officer: 0.729955 workers
-Additonally, Average number of workers in the system (getting checked + in queue): 1.32392 workers
+a) Average number of workers getting checked: 0.496897 workers
+b) Average response time for workers in getting checked: 0.954264 seconds
+c) Average time for which a worker has to wait until getting checked: 0.453981 seconds
+d) Average number of workers waiting in the queue before each officer: 0.450909 workers
+Additonally, Average number of workers in the system (getting checked or in queue): 0.947806 workers
 
 For Counter 2: 
-a) Average number of workers getting checked: 0.593108 workers
-b) Average response time for workers in getting checked: 5.40016 seconds
-c) Average time for which a worker has to wait until getting checked: 2.97677 seconds
-d) Average number of workers waiting in the queue before each officer: 0.728546 workers
-Additonally, Average number of workers in the system (getting checked + in queue): 1.32165 workers
+a) Average number of workers getting checked: 0.496038 workers
+b) Average response time for workers in getting checked: 0.95038 seconds
+c) Average time for which a worker has to wait until getting checked: 0.450814 seconds
+d) Average number of workers waiting in the queue before each officer: 0.44763 workers
+Additonally, Average number of workers in the system (getting checked or in queue): 0.943668 workers
 

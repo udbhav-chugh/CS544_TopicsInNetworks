@@ -32,7 +32,18 @@ public:
 	}
 
 	void simulate(){
-		
+
+		//output on console as well as file
+		ofstream fil("OutputCaseC.txt");
+		cout<<"Given:"<<endl;
+		fil<<"Given:"<<endl;
+		cout<<"For each counter, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
+		fil<<"For each counter, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
+		cout<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
+		fil<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
+		cout<<"This is a case of two M/M/1/6 queue systems"<<endl<<endl;
+		fil<<"This is a case of two M/M/1/6 queue systems"<<endl<<endl;
+
 		//exponential input generator
 		default_random_engine generator (time(0));
 		exponential_distribution<double> distributionArrival (this -> arrivalRate);
@@ -132,16 +143,6 @@ public:
 		//simulation completed
 		//output on console as well as file
 
-		ofstream fil("OutputCaseC.txt");
-		cout<<"Given:"<<endl;
-		fil<<"Given:"<<endl;
-		cout<<"For each counter, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
-		fil<<"For each counter, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
-		cout<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
-		fil<<"For each officer, mean service rate is "<<serviceRate<<" workers per second with exponential distribution"<<endl;
-		cout<<"This is a case of two M/M/1/6 queue systems"<<endl<<endl;
-		fil<<"This is a case of two M/M/1/6 queue systems"<<endl<<endl;
-
 		for(int i=0;i<2;i++){
 			totalTime[i] = servers[i] -> getNextFreeTime();
 			ll totalWorkersEntering = 0;
@@ -169,8 +170,8 @@ public:
 			fil<<"c) Average time for which a worker has to wait until getting checked: "<<averageWaitingTime<<" seconds"<<endl;
 			cout<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<" workers"<<endl;
 			fil<<"d) Average number of workers waiting in the queue before each officer: "<<averageWorkersInQueue<<" workers"<<endl;
-			cout<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<" workers"<<endl;
-			fil<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<" workers"<<endl;
+			cout<<"Additonally, Average number of workers in the system (getting checked or in queue): "<<averageWorkersInSystem<<" workers"<<endl;
+			fil<<"Additonally, Average number of workers in the system (getting checked or in queue): "<<averageWorkersInSystem<<" workers"<<endl;
 			cout<<endl;
 			fil<<endl;
 		}

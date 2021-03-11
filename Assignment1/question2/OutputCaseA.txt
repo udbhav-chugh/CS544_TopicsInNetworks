@@ -1,19 +1,19 @@
 Given:
-For each queue, mean arrival rate is 0.25 workers per second with exponential distribution
-For each officer, mean service rate is 0.3 workers per second with exponential distribution
+For each queue, mean arrival rate is 2 workers per second with exponential distribution
+For each officer, mean service rate is 4 workers per second with exponential distribution
 This is a case of two M/M/1 queue systems
 
 For Queue 1: 
-a) Average number of workers getting checked: 0.830833 workers
-b) Average response time for workers in getting checked: 19.7953 seconds
-c) Average time for which a worker has to wait until getting checked: 16.4688 seconds
-d) Average number of workers waiting in the queue before each officer: 4.11326 workers
-Additonally, Average number of workers in the system (getting checked + in queue): 4.9441 workers
+a) Average number of workers getting checked: 0.499153 workers
+b) Average response time for workers in getting checked: 0.497192 seconds
+c) Average time for which a worker has to wait until getting checked: 0.247315 seconds
+d) Average number of workers waiting in the queue before each officer: 0.494034 workers
+Additonally, Average number of workers in the system (getting checked or in queue): 0.993187 workers
 
 For Queue 2: 
-a) Average number of workers getting checked: 0.832702 workers
-b) Average response time for workers in getting checked: 20.4843 seconds
-c) Average time for which a worker has to wait until getting checked: 17.1468 seconds
-d) Average number of workers waiting in the queue before each officer: 4.27805 workers
-Additonally, Average number of workers in the system (getting checked + in queue): 5.11076 workers
+a) Average number of workers getting checked: 0.499825 workers
+b) Average response time for workers in getting checked: 0.499735 seconds
+c) Average time for which a worker has to wait until getting checked: 0.249639 seconds
+d) Average number of workers waiting in the queue before each officer: 0.498912 workers
+Additonally, Average number of workers in the system (getting checked or in queue): 0.998737 workers
 
