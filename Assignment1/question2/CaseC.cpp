@@ -132,7 +132,7 @@ public:
 		//simulation completed
 		//output on console as well as file
 
-		ofstream fil("CaseC.txt");
+		ofstream fil("OutputCaseC.txt");
 		cout<<"Given:"<<endl;
 		fil<<"Given:"<<endl;
 		cout<<"For each counter, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
@@ -173,7 +173,6 @@ public:
 			fil<<"Additonally, Average number of workers in the system (getting checked + in queue): "<<averageWorkersInSystem<<" workers"<<endl;
 			cout<<endl;
 			fil<<endl;
-			cout<<totalWorkers-totalWorkersEntering<<endl;
 		}
 
 		fil.close();

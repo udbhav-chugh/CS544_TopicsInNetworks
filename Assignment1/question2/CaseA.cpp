@@ -125,7 +125,7 @@ public:
 		}
 		//simulation completed
 		//output on console as well as file
-		ofstream fil("CaseA.txt");
+		ofstream fil("OutputCaseA.txt");
 		cout<<"Given:"<<endl;
 		fil<<"Given:"<<endl;
 		cout<<"For each queue, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;

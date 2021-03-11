@@ -35,11 +35,11 @@ int main(int argc, char *argv[]){
 	}
 	//check if arrival rate and service rate are positive
 	if(arrivalRate <= 0){
-		cout<<"Arrival Rate must be a positive number";
+		cout<<"Arrival Rate must be a positive number"<<endl;
 		exit(0);
 	}
 	if(serviceRate <= 0){
-		cout<<"Service Rate must be a positive number";
+		cout<<"Service Rate must be a positive number"<<endl;
 		exit(0);
 	}
 	

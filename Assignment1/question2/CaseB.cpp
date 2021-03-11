@@ -111,7 +111,7 @@ public:
 		ld averageWorkersInSystem = totalResponseTime / totalTime;
 
 		//output on console as well as file
-		ofstream fil("CaseB.txt");
+		ofstream fil("OutputCaseB.txt");
 		cout<<"Given:"<<endl;
 		fil<<"Given:"<<endl;
 		cout<<"For the common queue, mean arrival rate is "<<arrivalRate<<" workers per second with exponential distribution"<<endl;
