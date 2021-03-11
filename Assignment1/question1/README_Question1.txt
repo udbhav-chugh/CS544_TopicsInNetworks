@@ -30,4 +30,6 @@ OR
 
 3) File outputs stored in: "routingTableFile" "forwardingTableFile" "pathsFile"
 
-Note: Input files must be given as .txt file
+Note: 
+- Input files must be given as .txt file
+- In forwarding table, -1 denotes that the node is the source or destination for the connection (and thus it isn't forwarded to a different node)
