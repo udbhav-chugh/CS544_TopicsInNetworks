@@ -209,5 +209,9 @@ int main(int argc, char *argv[]){
 	printForwardingTable();
 	printConnections();
 
+	cout<<"\nRouting table stored in \""<<opt.routeFile<<"\" file.\n";
+	cout<<"Forwarding table stored in \""<<opt.fwdFile<<"\" file.\n";
+	cout<<"Admitted connections and count stored in \""<<opt.pathsFile<<"\" file.\n";
+
 	return 0;
 }

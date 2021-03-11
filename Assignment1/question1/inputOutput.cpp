@@ -176,6 +176,8 @@ void printConnections(){
 	cout.rdbuf(out.rdbuf());
 
 	int admitConn = 0;
+	// Final number of successful connections
+	
 	cout << "Admitted Connections:\n";
 	cout <<setw(13)<<"Connection Id"<<setw(15)<<"Source"<<setw(15)<<"Destination"<<setw(34)<<"Label List"<<setw(17)<<"Path Cost\n";
 	int index = 0;
@@ -192,10 +194,16 @@ void printConnections(){
 		index++;		
 	}
 
+	cout<<"\nTotal Connections: "<<conn.connList.size()<<"\n";;
+	cout<<"Admitted Connections: "<<admitConn<<"\n";
+	cout<<"Denied Connections: "<<conn.connList.size()-admitConn<<"\n";
+	cout<<"Blocking Probability: "<<1-double(admitConn)/conn.connList.size()<<"\n\n";
+
 	cout.rdbuf(coutbuf);
 
 	// Final number of successful connections
 	cout<<"Total Connections: "<<conn.connList.size()<<"\n";;
 	cout<<"Admitted Connections: "<<admitConn<<"\n";
+	cout<<"Denied Connections: "<<conn.connList.size()-admitConn<<"\n";
 	cout<<"Blocking Probability: "<<1-double(admitConn)/conn.connList.size()<<"\n";
 }
